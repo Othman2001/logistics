@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "saloodoAuth": ["libs/saloodo-auth/src/index.ts"]
+      "@myorg/my-lib": ["libs/my-lib/src/index.ts"],
+      "@saloodoAuth": ["libs/saloodo-auth/src/index.ts"],
+      "@uiKit": ["libs/ui-kit/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

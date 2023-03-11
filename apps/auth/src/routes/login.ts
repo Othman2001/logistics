@@ -28,7 +28,6 @@ const login = async (req: TypedRequestBody<User>, res: Response) => {
     });
   } else {
     console.log('enterd');
-    const userPassword = req.body.password;
     console.log(user.password);
     bcrypt.compare('230', user.password, (err, data) => {
       if (data) {
