@@ -1,0 +1,79 @@
+{
+  "name": "saloodo-carrier",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/saloodo-carrier/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/saloodo-carrier"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "saloodo-carrier:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "saloodo-carrier:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "saloodo-carrier:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nrwl/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "saloodo-carrier:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "saloodo-carrier:build:development"
+        },
+        "production": {
+          "buildTarget": "saloodo-carrier:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["coverage/apps/saloodo-carrier"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/apps/saloodo-carrier"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/saloodo-carrier/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "component-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/saloodo-carrier/cypress.config.ts",
+        "testingType": "component"
+      }
+    }
+  },
+  "tags": []
+}
