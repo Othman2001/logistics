@@ -1,21 +1,40 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import express, { Response } from 'express';
+import { PrismaClient } from '@prisma/client';
+import redisClient from './utils/connectRedis';
+import login from './routes/login';
+import dotenv from 'dotenv';
+import registerUser from './routes/register';
+import bodyParser from 'body-parser';
 
-import express from 'express';
-import * as path from 'path';
-
+dotenv.config();
+const prisma = new PrismaClient();
 const app = express();
+const jsonParser = bodyParser.json();
 
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+async function bootstrap() {
+  // Testing
+  app.get('/api/healthchecker', async (_, res: Response) => {
+    const message = await redisClient.get('try');
+    res.status(200).json({
+      status: 'success',
+      message,
+    });
+  });
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to auth!' });
-});
+  const port = 9000;
+  app.listen(port, () => {
+    console.log(`Server on port: ${port}`);
+  });
+}
 
-const port = process.env.PORT || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
-});
-server.on('error', console.error);
+app.post('/api/login', jsonParser, login);
+app.use(registerUser);
+
+bootstrap()
+  .catch((err) => {
+    throw err;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
